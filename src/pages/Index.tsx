@@ -560,7 +560,7 @@ const Index = () => {
                 <h4 className="font-medium mb-2">Example Value Calculation</h4>
                 <CodeBlock
                   code={`// For a $1,000 flight:
-const pointsNeeded = 1000 * 100; // 100k points (1 cent/point)
+const pointsNeeded = 1000 * 100; // 100,000 points (1 cent/point)
 const rebateAmount = pointsNeeded * 0.35; // 35,000 points back
 const netPointsCost = pointsNeeded - rebateAmount; // 65,000 points
 const effectiveCPP = 1000 / (netPointsCost / 100); // 1.54 cents per point`}
