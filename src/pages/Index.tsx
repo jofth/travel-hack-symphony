@@ -543,8 +543,8 @@ const Index = () => {
               nodes={[
                 { id: "amex", label: "Amex MR", color: "#006FCF", position: { x: 0.15, y: 0.5 } },
                 { id: "delta", label: "Delta", color: "#E31837", position: { x: 0.85, y: 0.5 } },
-                { id: "virgin", label: "Virgin", color: "#DC143C", position: { x: 0.5, y: 0.3 } },
-                { id: "flying-blue", label: "Flying Blue", color: "#0570DB", position: { x: 0.5, y: 0.7 } }
+                { id: "virgin", label: "Virgin", color: "#DC143C", position: { x: 0.5, y: 0.15 } },
+                { id: "flying-blue", label: "Flying Blue", color: "#0570DB", position: { x: 0.5, y: 0.85 } }
               ]}
               connections={[
                 { from: "amex", to: "delta", label: "1:1", thickness: 3 },
