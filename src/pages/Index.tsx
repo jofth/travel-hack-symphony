@@ -541,9 +541,9 @@ const Index = () => {
           <div className="h-[400px] bg-white/60 rounded-xl shadow-subtle p-4 backdrop-blur border border-white/20">
             <AnimatedDiagram
               nodes={[
-                { id: "amex", label: "Amex MR", color: "#006FCF", position: { x: 0.15, y: 0.5 } },
-                { id: "delta", label: "Delta", color: "#E31837", position: { x: 0.85, y: 0.5 } },
-                { id: "virgin", label: "Virgin", color: "#DC143C", position: { x: 0.5, y: 0.15 } },
+                { id: "amex", label: "Amex MR", color: "#006FCF", position: { x: 0.15, y: 0.35 } },
+                { id: "delta", label: "Delta", color: "#E31837", position: { x: 0.85, y: 0.35 } },
+                { id: "virgin", label: "Virgin", color: "#DC143C", position: { x: 0.5, y: 0.1 } },
                 { id: "flying-blue", label: "Flying Blue", color: "#0570DB", position: { x: 0.5, y: 0.85 } }
               ]}
               connections={[
