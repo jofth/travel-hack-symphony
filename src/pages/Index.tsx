@@ -547,7 +547,7 @@ const Index = () => {
                 { id: "flying-blue", label: "Flying Blue", color: "#0570DB", position: { x: 0.5, y: 0.7 } }
               ]}
               connections={[
-                { from: "amex", to: "delta", label: "1:1", thickness: 1 },
+                { from: "amex", to: "delta", label: "1:1", thickness: 3 },
                 { from: "amex", to: "virgin", label: "1:1", thickness: 3 },
                 { from: "amex", to: "flying-blue", label: "1:1", thickness: 3 },
                 { from: "virgin", to: "delta", label: "Partner Award", thickness: 3 },
