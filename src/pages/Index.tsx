@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
 import Slide from '@/components/Slide';
@@ -7,6 +6,14 @@ import AnimatedDiagram from '@/components/AnimatedDiagram';
 import CodeBlock from '@/components/CodeBlock';
 import ValueChart from '@/components/ValueChart';
 import CardBenefit from '@/components/CardBenefit';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 import { 
   CreditCard, 
   Plane, 
@@ -23,7 +30,9 @@ import {
   TicketCheck,
   Building,
   ShoppingBag,
-  Tag
+  Tag,
+  Check,
+  X
 } from 'lucide-react';
 
 const navItems = [
@@ -170,6 +179,85 @@ const Index = () => {
                 <span>Select other destinations</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-12 stagger-item">
+          <h3 className="text-2xl font-semibold mb-4">Delta Card Comparison</h3>
+          <p className="text-muted-foreground mb-6">
+            Compare the benefits and annual fees of the different Delta co-branded American Express cards:
+          </p>
+          
+          <div className="overflow-x-auto">
+            <Table className="w-full bg-white/80 rounded-lg shadow-md overflow-hidden">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Benefit</TableHead>
+                  <TableHead>Delta Blue</TableHead>
+                  <TableHead>Delta Gold</TableHead>
+                  <TableHead>Delta Platinum</TableHead>
+                  <TableHead>Delta Reserve</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">Annual Fee</TableCell>
+                  <TableCell>$0</TableCell>
+                  <TableCell>$150</TableCell>
+                  <TableCell>$350</TableCell>
+                  <TableCell>$650</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Free Checked Bag</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Priority Boarding</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">TakeOff 15 Discount</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Companion Certificate</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell>Main Cabin</TableCell>
+                  <TableCell>First/Comfort+/Main</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Lounge Access</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell>$50 per visit</TableCell>
+                  <TableCell>$50 per visit</TableCell>
+                  <TableCell>Included</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Status Boost</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell>10k MQMs/$25k spend</TableCell>
+                  <TableCell>15k MQMs/$30k spend</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Global Entry/TSA Credit</TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><X size={16} className="text-red-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                  <TableCell><Check size={16} className="text-green-500" /></TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
         </div>
       </Slide>
@@ -354,18 +442,16 @@ const Index = () => {
             <AnimatedDiagram
               nodes={[
                 { id: "amex", label: "Amex MR", color: "#006FCF", position: { x: 0.15, y: 0.5 } },
-                { id: "delta", label: "Delta", color: "#E31837", position: { x: 0.85, y: 0.3 } },
-                { id: "virgin", label: "Virgin", color: "#DC143C", position: { x: 0.5, y: 0.2 } },
-                { id: "flying-blue", label: "Flying Blue", color: "#0570DB", position: { x: 0.5, y: 0.8 } },
-                { id: "skyteam", label: "SkyTeam", color: "#00539B", position: { x: 0.85, y: 0.7 } }
+                { id: "delta", label: "Delta", color: "#E31837", position: { x: 0.85, y: 0.5 } },
+                { id: "virgin", label: "Virgin", color: "#DC143C", position: { x: 0.5, y: 0.3 } },
+                { id: "flying-blue", label: "Flying Blue", color: "#0570DB", position: { x: 0.5, y: 0.7 } }
               ]}
               connections={[
                 { from: "amex", to: "delta", label: "1:1", thickness: 1 },
                 { from: "amex", to: "virgin", label: "1:1", thickness: 3 },
                 { from: "amex", to: "flying-blue", label: "1:1", thickness: 3 },
                 { from: "virgin", to: "delta", label: "Partner Award", thickness: 3 },
-                { from: "flying-blue", to: "skyteam", label: "Partner Award", thickness: 3 },
-                { from: "skyteam", to: "delta", label: "Includes Delta", thickness: 1 }
+                { from: "flying-blue", to: "delta", label: "Partner Award", thickness: 3 }
               ]}
             />
           </div>
@@ -557,15 +643,29 @@ const Index = () => {
               </div>
               
               <div className="mt-6 pt-6 border-t border-gray-100">
-                <h4 className="font-medium mb-2">Example Value Calculation</h4>
-                <CodeBlock
-                  code={`// For a $1,000 flight:
-const pointsNeeded = 1000 * 100; // 100,000 points (1 cent/point)
-const rebateAmount = pointsNeeded * 0.35; // 35,000 points back
-const netPointsCost = pointsNeeded - rebateAmount; // 65,000 points
-const effectiveCPP = 1000 / (netPointsCost / 100); // 1.54 cents per point`}
-                  title="Effective Value Calculation"
-                />
+                <h4 className="font-medium mb-4">Example Value Calculation</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <span className="text-sm">Flight Cost</span>
+                    <span className="font-medium">$1,000</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <span className="text-sm">Points Required (1¢/point)</span>
+                    <span className="font-medium">100,000 points</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <span className="text-sm">35% Points Rebate</span>
+                    <span className="font-medium text-green-600">35,000 points</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <span className="text-sm">Net Points Cost</span>
+                    <span className="font-medium">65,000 points</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <span className="text-sm">Effective Value</span>
+                    <span className="font-medium text-amex-platinum">1.54¢ per point</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
