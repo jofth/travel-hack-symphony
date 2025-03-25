@@ -21,7 +21,7 @@ const Slide: React.FC<SlideProps> = ({
   background = 'default'
 }) => {
   const slideRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,7 +31,7 @@ const Slide: React.FC<SlideProps> = ({
             setIsVisible(true);
           } else {
             // Keep the slide visible once it's been seen
-            // setIsVisible(false);
+            // Do not set isVisible to false
           }
         });
       },

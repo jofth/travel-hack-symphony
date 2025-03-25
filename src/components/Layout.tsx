@@ -10,10 +10,10 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, className }) => {
   return (
     <div className={cn(
-      "min-h-screen w-full overflow-hidden bg-gradient-to-br from-background to-secondary",
+      "min-h-screen w-full bg-gradient-to-br from-background to-secondary",
       className
     )}>
-      <div className="slide-container overflow-x-hidden">
+      <div className="slide-container">
         {children}
       </div>
     </div>
