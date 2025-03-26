@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface NavItem {
   id: string;
   label: string;
+  path: string;
 }
 
 interface NavigationProps {
@@ -14,63 +16,66 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ items, className }) => {
-  const [activeSection, setActiveSection] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Calculate scroll progress
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      const totalScrollable = docHeight - windowHeight;
-      const progress = scrollPosition / totalScrollable;
-      setScrollProgress(progress);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Find current index
+      const currentIndex = items.findIndex(item => item.path === currentPath);
+      if (currentIndex === -1) return;
 
-      // Find active section
-      const sections = items.map(item => document.getElementById(item.id));
-      let currentSectionId = items[0]?.id || '';
-      
-      sections.forEach((section) => {
-        if (!section) return;
-        
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        
-        if (scrollPosition >= sectionTop - 200 && 
-            scrollPosition < sectionTop + sectionHeight - 200) {
-          currentSectionId = section.id;
+      // Handle arrow keys and space bar
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown' || event.key === ' ' || event.key === 'j' || event.key === 'l') {
+        event.preventDefault();
+        if (currentIndex < items.length - 1) {
+          navigate(items[currentIndex + 1].path);
         }
-      });
-      
-      setActiveSection(currentSectionId);
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp' || event.key === 'k' || event.key === 'h') {
+        event.preventDefault();
+        if (currentIndex > 0) {
+          navigate(items[currentIndex - 1].path);
+        }
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        navigate(items[0].path);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        navigate(items[items.length - 1].path);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initialize values
+    window.addEventListener('keydown', handleKeyDown);
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [items]);
+  }, [items, currentPath, navigate]);
 
-  const navigateToSection = (id: string) => {
+  useEffect(() => {
+    // Calculate scroll progress for the progress bar (aesthetic only)
+    const currentIndex = Math.max(0, items.findIndex(item => item.path === currentPath));
+    const progress = items.length > 1 ? currentIndex / (items.length - 1) : 0;
+    setScrollProgress(progress);
+  }, [currentPath, items]);
+
+  const navigateToSlide = (path: string) => {
     setIsMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigate(path);
   };
 
   const navigatePrevNext = (direction: 'prev' | 'next') => {
-    const currentIndex = items.findIndex(item => item.id === activeSection);
+    const currentIndex = items.findIndex(item => item.path === currentPath);
     if (currentIndex === -1) return;
     
     if (direction === 'prev' && currentIndex > 0) {
-      navigateToSection(items[currentIndex - 1].id);
+      navigateToSlide(items[currentIndex - 1].path);
     } else if (direction === 'next' && currentIndex < items.length - 1) {
-      navigateToSection(items[currentIndex + 1].id);
+      navigateToSlide(items[currentIndex + 1].path);
     }
   };
 
@@ -100,14 +105,14 @@ const Navigation: React.FC<NavigationProps> = ({ items, className }) => {
                   key={item.id}
                   className={cn(
                     "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative",
-                    activeSection === item.id 
+                    currentPath === item.path 
                       ? "text-primary" 
                       : "text-muted-foreground hover:text-primary"
                   )}
-                  onClick={() => navigateToSection(item.id)}
+                  onClick={() => navigateToSlide(item.path)}
                 >
                   {item.label}
-                  {activeSection === item.id && (
+                  {currentPath === item.path && (
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary animate-grow-x" />
                   )}
                 </button>
@@ -137,11 +142,11 @@ const Navigation: React.FC<NavigationProps> = ({ items, className }) => {
                 key={item.id}
                 className={cn(
                   "px-4 py-3 text-lg font-medium rounded-md transition-all",
-                  activeSection === item.id 
+                  currentPath === item.path 
                     ? "bg-primary/10 text-primary" 
                     : "text-gray-600 hover:bg-gray-100"
                 )}
-                onClick={() => navigateToSection(item.id)}
+                onClick={() => navigateToSlide(item.path)}
               >
                 {item.label}
               </button>
@@ -155,14 +160,14 @@ const Navigation: React.FC<NavigationProps> = ({ items, className }) => {
         <button
           className="p-3 rounded-full bg-white/80 backdrop-blur shadow-sm hover:bg-white transition-all duration-200"
           onClick={() => navigatePrevNext('prev')}
-          disabled={items.findIndex(item => item.id === activeSection) <= 0}
+          disabled={items.findIndex(item => item.path === currentPath) <= 0}
         >
           <ChevronUp size={20} className="text-gray-700" />
         </button>
         <button
           className="p-3 rounded-full bg-white/80 backdrop-blur shadow-sm hover:bg-white transition-all duration-200"
           onClick={() => navigatePrevNext('next')}
-          disabled={items.findIndex(item => item.id === activeSection) >= items.length - 1}
+          disabled={items.findIndex(item => item.path === currentPath) >= items.length - 1}
         >
           <ChevronDown size={20} className="text-gray-700" />
         </button>
